@@ -2,80 +2,92 @@ package com.techlab.api_tienda.service;
 
 import com.techlab.api_tienda.model.Producto;
 import com.techlab.api_tienda.repository.ProductRepository;
-import com.techlab.api_tienda.repository.ProductoMemoRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
 
-    //private ProductoMemoRepository repository;
-    private ProductRepository repository;
+    private final ProductRepository repository;
 
     public ProductService(ProductRepository productRepository){
-        this.repository= productRepository;
+        this.repository = productRepository;
     }
 
-    public List<Producto> obtenerProductos(String nombre, Double precioTope){
+    public List<Producto> obtenerProductos(String title, Double priceMax){
 
-        if (!nombre.isEmpty() && precioTope > 0){
-            return this.repository.searchByNombreContainingAndPrecioLessThanEqual(nombre,precioTope);
+        // FILTRO: title + price
+        if (!title.isEmpty() && priceMax > 0){
+            return this.repository.findByTitleContainingAndPriceLessThanEqual(title, priceMax);
         }
 
-        if (!nombre.isEmpty() ){
-            return this.repository.searchByNombreContaining(nombre);
+        // FILTRO: title
+        if (!title.isEmpty()){
+            return this.repository.findByTitleContaining(title);
         }
 
-        if (precioTope > 0){
-            return this.repository.searchByPrecioLessThanEqual(precioTope);
+        // FILTRO: price
+        if (priceMax > 0){
+            return this.repository.findByPriceLessThanEqual(priceMax);
         }
 
+        // Sin filtros
         return this.repository.findAll();
     }
 
-
-
+    public Producto registrarProducto(Producto producto) {
+        return repository.save(producto);
+    }
 
     public Producto actualizarProducto(Long id, Producto data) {
-        Producto producto = this.repository.findById(id).
-                orElseThrow(()-> new RuntimeException("No encontramos el producto."));
 
-        if (data.getNombre() != null && !data.getNombre().isBlank()) {
-            producto.setNombre(data.getNombre());
-        }else{
-            System.out.println("No se pudo editar el producto. Nombre no valido.");
+        Producto producto = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        // title
+        if (data.getTitle() != null && !data.getTitle().isBlank()) {
+            producto.setTitle(data.getTitle());
         }
 
-        if (data.getPrecio() > 0) {
-            producto.setPrecio(data.getPrecio());
-        }else{
-            System.out.println("No se pudo editar el producto. Precio no valido.");
+        // price
+        if (data.getPrice() != null && data.getPrice() > 0) {
+            producto.setPrice(data.getPrice());
         }
 
-        repository.save(producto);
-        return producto;
+        // description
+        if (data.getDescription() != null) {
+            producto.setDescription(data.getDescription());
+        }
+
+        // category
+        if (data.getCategory() != null) {
+            producto.setCategory(data.getCategory());
+        }
+
+        // image
+        if (data.getImage() != null) {
+            producto.setImage(data.getImage());
+        }
+
+        // rating
+        if (data.getRating() != null) {
+            if (data.getRating().getRate() != null) {
+                producto.getRating().setRate(data.getRating().getRate());
+            }
+            if (data.getRating().getCount() != null) {
+                producto.getRating().setCount(data.getRating().getCount());
+            }
+        }
+
+        return repository.save(producto);
     }
-
 
     public Producto eliminarProducto(Long id){
-        Optional<Producto> productoOptional = this.repository.findById(id);
-        if (productoOptional.isEmpty()) {
-            System.out.println("No se pudo eliminar el producto. No se encontró el producto");
-            return null;
-        }
-        Producto producto = productoOptional.get();
-        this.repository.delete(producto);
-        System.out.println("Se elimino el producto con id: "+producto.getId());
+        Producto producto = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        repository.delete(producto);
         return producto;
     }
-
-    public Producto registrarProducto(Producto prd) {
-        return this.repository.save(prd);
-    }
-
-
-
 }

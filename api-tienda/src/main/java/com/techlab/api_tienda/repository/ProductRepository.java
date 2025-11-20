@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Producto, Long > {
-    List<Producto> searchByNombre(String nombre);
+public interface ProductRepository extends JpaRepository<Producto, Long> {
 
-    List<Producto> searchByNombreContaining(String nombre);
-    List<Producto> searchByPrecioLessThanEqual(Double precio);
+    List<Producto> findByTitleContaining(String title);
 
-    List<Producto> searchByNombreContainingAndPrecioLessThanEqual(String nombre, Double precio);
+    List<Producto> findByPriceLessThanEqual(Double price);
 
+    List<Producto> findByTitleContainingAndPriceLessThanEqual(String title, Double price);
 }

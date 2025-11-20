@@ -16,14 +16,14 @@ public class ProductoMemoRepository {
 
     public ProductoMemoRepository() {
         // Instanciando bebidas Default
-        stock.add(new Producto("Té Chai",45.0,20));
-        stock.add(new Producto("Té Verde",25.0,20));
-        stock.add(new Producto("Café Americano",65.0,20));
-        stock.add(new Producto("Café Negro",75.0,20));
-
-        // Instanciando Comida Default
-        stock.add(new Producto("Medialuna",65.0,50));
-        stock.add(new Producto("Gallelitas",35.0,80));
+//        stock.add(new Producto("Té Chai",45.0,20));
+//        stock.add(new Producto("Té Verde",25.0,20));
+//        stock.add(new Producto("Café Americano",65.0,20));
+//        stock.add(new Producto("Café Negro",75.0,20));
+//
+//        // Instanciando Comida Default
+//        stock.add(new Producto("Medialuna",65.0,50));
+//        stock.add(new Producto("Gallelitas",35.0,80));
 
         for (Producto producto:stock){
             this.updateId(producto);
@@ -50,9 +50,9 @@ public class ProductoMemoRepository {
 
     public Producto obtenerProductoPorId(int id){
         for (Producto producto:stock){
-            if(producto.coincideId(id)){
-                return producto;
-            }
+//            if(producto.coincideId(id)){
+//                return producto;
+//            }
         }
 
         return null;
@@ -64,9 +64,9 @@ public class ProductoMemoRepository {
         ArrayList<Producto> productoEncontrados = new ArrayList<>();
 
         for (Producto producto : this.stock) {
-            if (estaIncluido(producto.getNombre(), nombre)) {
-                productoEncontrados.add(producto);
-            }
+//            if (estaIncluido(producto.getNombre(), nombre)) {
+//                productoEncontrados.add(producto);
+//            }
         }
 
         return productoEncontrados;
@@ -77,9 +77,9 @@ public class ProductoMemoRepository {
         ArrayList<Producto> productoFiltrados = new ArrayList<>();
 
         for (Producto producto : this.stock) {
-            if (producto.getPrecio()<=precio) {
-                productoFiltrados.add(producto);
-            }
+//            if (producto.getPrecio()<=precio) {
+//                productoFiltrados.add(producto);
+//            }
         }
 
         return productoFiltrados;
@@ -91,9 +91,9 @@ public class ProductoMemoRepository {
         ArrayList<Producto> productoFiltrados = new ArrayList<>();
 
         for (Producto producto : this.stock) {
-            if (producto.getPrecio()<=precioTope && estaIncluido(producto.getNombre(), nombre)) {
-                productoFiltrados.add(producto);
-            }
+//            if (producto.getPrecio()<=precioTope && estaIncluido(producto.getNombre(), nombre)) {
+//                productoFiltrados.add(producto);
+//            }
         }
 
         return productoFiltrados;
