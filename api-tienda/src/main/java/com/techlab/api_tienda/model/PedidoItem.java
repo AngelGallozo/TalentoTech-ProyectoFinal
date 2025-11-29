@@ -10,14 +10,14 @@ public class PedidoItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // ID autogenerado del item
 
-    private Long productoId;
-    private int cantidad;
+    private Long productoId; // ID del producto asociado
+    private int cantidad; // Cantidad de este producto en el pedido
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
-    @JsonBackReference
-    private Pedido pedido;
+    @JsonBackReference // Maneja la relación bidireccional para evitar ciclos en JSON
+    private Pedido pedido; // Pedido al que pertenece este item
 
 }

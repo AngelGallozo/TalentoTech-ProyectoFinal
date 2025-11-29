@@ -11,15 +11,15 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // ID autogenerado del producto
 
-    private String title;
-    private Double price;
+    private String title; // Nombre del producto
+    private Double price; // Precio del producto
     @Lob
-    private String description;
-    private String category;
-    private String image;
-    private Integer stock;
+    private String description; // Descripción detallada del producto
+    private String category; // Categoría del producto
+    private String image; // URL de la imagen del producto
+    private Integer stock;  // Cantidad disponible en inventario
 
     @Embedded
     private Rating rating;

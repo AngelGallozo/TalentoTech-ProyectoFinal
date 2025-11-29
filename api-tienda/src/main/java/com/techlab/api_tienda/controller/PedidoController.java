@@ -10,15 +10,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/pedidos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Permite que cualquier origen haga peticiones (CORS)
 public class PedidoController {
 
     private final PedidoService service;
-
+    // Constructor inyectando el servicio de pedidos
     public PedidoController(PedidoService service) {
         this.service = service;
     }
-
+    // Endpoint para crear un nuevo pedido
     @PostMapping
     public ResponseEntity<?> crearPedido(@RequestBody PedidoRequest request) {
         try {
@@ -30,11 +30,13 @@ public class PedidoController {
         }
     }
 
+    // Endpoint para obtener todos los pedidos de un usuario
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> obtenerPedidos(@PathVariable Long userId) {
         return ResponseEntity.ok(service.obtenerPedidosDeUsuario(userId));
     }
 
+    // Endpoint para eliminar un pedido por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarPedido(@PathVariable Long id) {
         try {
