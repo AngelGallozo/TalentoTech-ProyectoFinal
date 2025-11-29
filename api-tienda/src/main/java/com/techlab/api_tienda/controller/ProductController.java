@@ -24,11 +24,10 @@ public class ProductController {
 
     //GET /products
     @GetMapping("/productos")
-    public List<Producto> listarProductos(
-            @RequestParam (required = false,defaultValue = "") String nombre,
-            @RequestParam(required = false,defaultValue = "0") Double precio){
-        return this.service.obtenerProductos(nombre,precio);
+    public List<Producto> listarProductos(@RequestParam(required = false, defaultValue = "") String nombre) {
+        return service.obtenerProductos(nombre);
     }
+
 
 
 

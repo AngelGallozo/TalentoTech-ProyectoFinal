@@ -15,25 +15,11 @@ public class ProductService {
         this.repository = productRepository;
     }
 
-    public List<Producto> obtenerProductos(String title, Double priceMax){
-
-        // FILTRO: title + price
-        if (!title.isEmpty() && priceMax > 0){
-            return this.repository.findByTitleContainingAndPriceLessThanEqual(title, priceMax);
+    public List<Producto> obtenerProductos(String title) {
+        if (title != null && !title.isEmpty()) {
+            return repository.findByTitleContaining(title);
         }
-
-        // FILTRO: title
-        if (!title.isEmpty()){
-            return this.repository.findByTitleContaining(title);
-        }
-
-        // FILTRO: price
-        if (priceMax > 0){
-            return this.repository.findByPriceLessThanEqual(priceMax);
-        }
-
-        // Sin filtros
-        return this.repository.findAll();
+        return repository.findAll();
     }
 
     public Producto registrarProducto(Producto producto) {
@@ -69,6 +55,12 @@ public class ProductService {
         if (data.getImage() != null) {
             producto.setImage(data.getImage());
         }
+
+        // stock
+        if (data.getStock() != null && data.getStock() >= 0) {
+            producto.setStock(data.getStock());
+        }
+
 
         // rating
         if (data.getRating() != null) {
